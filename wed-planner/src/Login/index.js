@@ -1,4 +1,4 @@
-import Button from '../Components/Button.js'
+import MainButton from '../Components/Button.js'
 import Carousel from '../Components/Carousel.js'
 
 function Login() {
@@ -25,7 +25,7 @@ function Login() {
                   </div>
                 </div>
                 <div className="row justify-content-center">
-                    <Button text="Login" />
+                    <MainButton text="Login" />
                 </div>
               </div>
               </div>
