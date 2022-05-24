@@ -4,8 +4,8 @@
 export default function Task({title, description, date}) {
     return(
         <div>
-            <div class="card bg-light">
-                <div class="card-header">
+            <div className="card bg-light">
+                <div className="card-header">
                     <div className="row">
                         <div className="col-6">
                             <h6>{title}</h6>
@@ -15,9 +15,9 @@ export default function Task({title, description, date}) {
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <p class="card-text">{description}</p>
-                    <a href="#" class="btn btn-primary">Edit Task</a>
+                <div className="card-body">
+                    <p className="card-text">{description}</p>
+                    <a href="#" className="btn btn-primary">Edit Task</a>
                 </div>
             </div>
         </div>
