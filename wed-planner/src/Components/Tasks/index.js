@@ -2,6 +2,8 @@ import Task from "./Task"
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap'
 import MainButton from "../Button";
+import { Formik } from "formik";
+import * as yup from "yup";
 
 export default function TasksGroup() {
 
@@ -55,48 +57,14 @@ export default function TasksGroup() {
         },
     ])
 
-
+    // Trigger Modal 
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [name, setName] = useState("");
-    const [desc, setDesc] = useState("");
-    const [date, setDate] = useState("");
-    const [resp, setResp] = useState("Monica")
-
-    const handleChange = (e) => {
-        setResp(e.target.value);
-      };
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        console.log({name})
-        console.log({desc})
-        console.log({date})
-        console.log({resp})
-
-        if({name}.name.trim().length !== 0){
-            const newTask = {"title": name, "description": desc, "date": date, "responsible": resp, "progress": "not started"}
-            setTaskMap([...TaskMap, newTask])
-
-            setDesc("")
-            setDate("")
-            setResp("")
-
-            console.log({TaskMap})
-
-            handleClose()
-        }else{
-            
-        }
-
-
-        
-    }
-
+    const schema = yup.object().shape({
+        name: yup.string().required("Please add a task name!"),
+    });      
 
     return(
         <div className="mt-5">
@@ -166,46 +134,82 @@ export default function TasksGroup() {
                     <Modal.Title>Add New Task</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form 
-                        noValidate
-                    >
-                        <Form.Control 
-                            type="text" 
-                            placeholder="Task Name" 
-                            className="mb-3" 
-                            value={name} 
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                        <Form.Select 
-                            className="mb-3"
-                            value={resp} 
-                            onChange={handleChange}
+                <Formik
+                    validationSchema={schema}
+                    onSubmit={values => {
+                        console.log(values);
+                        const newTask = {"title": values.name, "description": values.desc, "date": values.date, "responsible": values.resp, "progress": "not started"}
+                        console.log(newTask)
+                        setTaskMap([...TaskMap, newTask])
+                    }}
+                    initialValues={{
+                        name: '',
+                        resp: 'Monica',
+                        date: '',
+                        desc: '',
+                    }}
+                >
+                    {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        isValid,
+                        errors,
+                    }) => (
+                        <Form 
+                            noValidate 
+                            onSubmit={handleSubmit}
                         >
-                            <option value="Monica">Monica</option>
-                            <option value="Rachel">Rachel</option>
-                        </Form.Select>
-                        <Form.Control 
-                            type="date" 
-                            placeholder="Deadline" 
-                            className="mb-3"
-                            value={date} 
-                            onChange={(e) => setDate(e.target.value)}
-                        />
-                        <Form.Control
-                            as="textarea"
-                            placeholder="Description of the Task"
-                            style={{ height: '100px' }}
-                            value={desc} 
-                            onChange={(e) => setDesc(e.target.value)}
-                        />
-                    </Form>
+                            <Form.Group className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    name="name"
+                                    placeholder="Task Name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    isValid={touched.name && !errors.name}
+                                    isInvalid={!!errors.name}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.name}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Select 
+                                className="mb-3"
+                                name="resp"
+                                value={values.resp}
+                                onChange={handleChange}
+                            >
+                                <option value="Monica">Monica</option>
+                                <option value="Rachel">Rachel</option>
+                            </Form.Select>
+                            <Form.Control
+                                className="mb-3"
+                                type="date"
+                                name="date"
+                                placeholder="Deadline" 
+                                value={values.date}
+                                onChange={handleChange}
+                            />
+                            <Form.Control
+                                name="desc"
+                                as="textarea"
+                                placeholder="Description of the Task"
+                                style={{ height: '100px' }}
+                                value={values.desc}
+                                onChange={handleChange}
+                            />
+                            <div className="row justify-content-center">
+                                <Button variant="btn btn-dark" type="submit" className="mt-3 col-4">
+                                    Add Task
+                                </Button>
+                            </div>
+                        </Form>
+                    )}
+                    </Formik>
                 </Modal.Body>
-                <Modal.Footer>
-                <Button variant="primary" type="submit" onClick={handleSubmit}>
-                    Submit
-                </Button>
-                </Modal.Footer>
             </Modal>
         </div>
     )

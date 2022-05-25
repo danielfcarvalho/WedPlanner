@@ -17,7 +17,7 @@ export default function Task({title, description, date}) {
                 </div>
                 <div className="card-body">
                     <p className="card-text">{description}</p>
-                    <a href="#" className="btn btn-primary">Edit Task</a>
+                    <a className="btn btn-dark">Edit Task</a>
                 </div>
             </div>
         </div>
