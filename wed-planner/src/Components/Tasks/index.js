@@ -9,59 +9,92 @@ export default function TasksGroup() {
 
     const [TaskMap, setTaskMap] = useState([
         {
+            id: 0,
             title: "Contact Photographer",
             description: "Just do it",
-            date: "31-05-2022",
+            date: "2022-05-31",
             responsible: "Rachel",
             progress: "not started"
         },
         {
+            id: 1,
             title: "Contact Photographer",
             description: "Just do it",
-            date: "31-05-2022",
-            responsible: "Rachel",
-            progress: "not started"
-            
-        },
-        {
-            title: "Contact Photographer",
-            description: "Just do it",
-            date: "31-05-2022",
+            date: "2022-05-31",
             responsible: "Rachel",
             progress: "not started"
             
         },
         {
+            id: 2,
             title: "Contact Photographer",
             description: "Just do it",
-            date: "31-05-2022",
+            date: "2022-05-31",
+            responsible: "Rachel",
+            progress: "not started"
+            
+        },
+        {
+            id: 3,
+            title: "Contact Photographer",
+            description: "Just do it",
+            date: "2022-05-31",
             responsible: "Rachel",
             progress: "in progress"
             
         },
         {
+            id: 4,
             title: "Contact Photographer",
             description: "Just do it",
-            date: "31-05-2022",
+            date: "2022-05-31",
             responsible: "Rachel",
             progress: "completed"
             
         },
         {
+            id: 5,
             title: "Contact Photographer",
             description: "Just do it",
-            date: "31-05-2022",
+            date: "2022-05-31",
             responsible: "Rachel",
             progress: "completed"
             
         },
     ])
 
-    // Trigger Modal 
+    // Trigger Modal Add Task
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // Trigger Modal Edit Task
+    const [taskInfo, setTaskInfo] = useState(
+        {
+            id: 0,
+            title: "",
+            description: "",
+            date: "",
+            responsible: "",
+            progress: ""
+        }
+    )
+    const [showEdit, setShowEdit] = useState(false);
+    const handleCloseEdit = () => setShowEdit(false);
+    const handleShowEdit = (id) => {
+        setShowEdit(true);
+        TaskMap.map((task) => task.id === id ? setTaskInfo(
+            {
+                id: task.id,
+                title: task.title,
+                description: task.description,
+                date: task.date,
+                responsible: task.responsible,
+                progress: task.progress
+            }
+        ) : task)
+        console.log(taskInfo)
+    }
     const schema = yup.object().shape({
         name: yup.string().required("Please add a task name!"),
     });      
@@ -94,7 +127,7 @@ export default function TasksGroup() {
                             .filter(task => task.progress == "not started")
                             .map((task, key) => (
                                 <div className="mb-4" key={key}>
-                                    <Task title={task.title} description={task.description} date={task.date}/>
+                                    <Task id={task.id} title={task.title} description={task.description} date={task.date} showEditTask={handleShowEdit}/>
                                 </div>
                             ))
                         }
@@ -108,7 +141,7 @@ export default function TasksGroup() {
                             .filter(task => task.progress == "in progress")
                             .map((task, key) => (
                                 <div className="mb-4" key={key}>
-                                    <Task title={task.title} description={task.description} date={task.date}/>
+                                    <Task id={task.id} title={task.title} description={task.description} date={task.date} showEditTask={handleShowEdit}/>
                                 </div>
                             ))
                         }
@@ -122,13 +155,14 @@ export default function TasksGroup() {
                             .filter(task => task.progress == "completed")
                             .map((task, key) => (
                                 <div className="mb-4" key={key}>
-                                    <Task title={task.title} description={task.description} date={task.date}/>
+                                    <Task id={task.id} title={task.title} description={task.description} date={task.date} showEditTask={handleShowEdit}/>
                                 </div>
                             ))
                         }
                     </div>
                 </div>
             </div>
+            
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add New Task</Modal.Title>
@@ -138,9 +172,11 @@ export default function TasksGroup() {
                     validationSchema={schema}
                     onSubmit={values => {
                         console.log(values);
-                        const newTask = {"title": values.name, "description": values.desc, "date": values.date, "responsible": values.resp, "progress": "not started"}
+                        const len = TaskMap.length;
+                        const newTask = {"id": TaskMap[len-1].id + 1, "title": values.name, "description": values.desc, "date": values.date, "responsible": values.resp, "progress": "not started"}
                         console.log(newTask)
                         setTaskMap([...TaskMap, newTask])
+                        handleClose()
                     }}
                     initialValues={{
                         name: '',
@@ -204,6 +240,112 @@ export default function TasksGroup() {
                             <div className="row justify-content-center">
                                 <Button variant="btn btn-dark" type="submit" className="mt-3 col-4">
                                     Add Task
+                                </Button>
+                            </div>
+                        </Form>
+                    )}
+                    </Formik>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={showEdit} onHide={handleCloseEdit}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Task</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <Formik
+                    validationSchema={schema}
+                    onSubmit={values => {
+                        console.log(taskInfo)
+                        console.log(values);
+                        setTaskMap(
+                            TaskMap.map((task) => task.id === taskInfo.id ? 
+                            {
+                                id: task.id,
+                                title: values.name,
+                                description: values.desc,
+                                date: values.date,
+                                responsible: values.resp,
+                                progress: values.state
+                            }
+                         : task)
+                        )
+                        handleCloseEdit()
+                    }}
+                    initialValues={{
+                        name: taskInfo.title,
+                        resp: taskInfo.responsible,
+                        date: taskInfo.date,
+                        desc: taskInfo.description,
+                        state: taskInfo.progress,
+                    }}
+                >
+                    {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        isValid,
+                        errors,
+                    }) => (
+                        <Form 
+                            noValidate 
+                            onSubmit={handleSubmit}
+                        >
+                            <Form.Group className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    name="name"
+                                    placeholder="Task Name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    isValid={touched.name && !errors.name}
+                                    isInvalid={!!errors.name}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.name}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Select 
+                                className="mb-3"
+                                name="resp"
+                                value={values.resp}
+                                onChange={handleChange}
+                            >
+                                <option value="Monica">Monica</option>
+                                <option value="Rachel">Rachel</option>
+                            </Form.Select>
+                            <Form.Control
+                                className="mb-3"
+                                type="date"
+                                name="date"
+                                placeholder="Deadline" 
+                                value={values.date}
+                                onChange={handleChange}
+                            />
+                            <Form.Control
+                                className="mb-3"
+                                name="desc"
+                                as="textarea"
+                                placeholder="Description of the Task"
+                                style={{ height: '100px' }}
+                                value={values.desc}
+                                onChange={handleChange}
+                            />
+                            <Form.Select 
+                                className="mb-3"
+                                name="state"
+                                value={values.state}
+                                onChange={handleChange}
+                            >
+                                <option value="not started">not started</option>
+                                <option value="in progress">in progress</option>
+                                <option value="completed">completed</option>
+                            </Form.Select>
+                            <div className="row justify-content-center">
+                                <Button variant="btn btn-dark" type="submit" className="col-4">
+                                    Edit Task
                                 </Button>
                             </div>
                         </Form>
