@@ -3,17 +3,15 @@ import CardGroup from '../Components/Card_Group/index.js';
 import TasksGroup from '../Components/Tasks/index.js';
 
 
-function HomeAdmin() {
-    const username = "Monica"
-
+function Home({username}) {
 
     return(
         <div>
             <Banner username = {username}/>
-            <CardGroup />
-            <TasksGroup />
+            <CardGroup/>
+            <TasksGroup username={username}/>
         </div>
     );
 }
 
-export default HomeAdmin
+export default Home

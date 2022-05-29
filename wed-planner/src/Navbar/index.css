@@ -1,0 +1,30 @@
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-menu {
+    width: 300px !important;
+    height: fit-content!important;
+}
+
+.home, .budget {
+    border-right: 1px solid rgba(0,0,0,.15);
+
+}
+
+.row1, .row2 {
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+.home:hover, .budget:hover, .services:hover, .guest:hover, .logout:hover {
+    color: blue;
+}
+
+.dropdown-toggle::after {
+    display: none !important; 
+}
+
+.header {
+    color: black!important;
+}

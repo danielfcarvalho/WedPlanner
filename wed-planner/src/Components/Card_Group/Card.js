@@ -1,8 +1,10 @@
 import {FaBook, FaCalculator, FaUtensils} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import "./card.css"
 
-function Card({name, description, icon}) {
+function Card({name, description, icon, link}) {
     return(
-        <div>
+        <Link to={link} className="link">
             <div className="card">
                 <h5 className="card-header">{name}</h5>
                 <div className="card-body">
@@ -21,7 +23,7 @@ function Card({name, description, icon}) {
                     
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 

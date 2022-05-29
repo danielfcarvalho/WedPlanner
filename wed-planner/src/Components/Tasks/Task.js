@@ -2,7 +2,7 @@ import React from "react"
 import {Button} from "react-bootstrap"
 
 
-export default function Task({id, title, description, date, showEditTask}) {
+export default function Task({id, title, description, date, showEditTask, showCommentTask}) {
     return(
         <div>
             <div className="card bg-light">
@@ -18,7 +18,14 @@ export default function Task({id, title, description, date, showEditTask}) {
                 </div>
                 <div className="card-body">
                     <p className="card-text">{description}</p>
-                    <Button className="btn btn-dark" onClick={() => showEditTask(id)}>Edit Task</Button>
+                    <div className="row">
+                        <div className="col-4 ">
+                            <Button className="btn btn-dark" onClick={() => showEditTask(id)}>Edit Task</Button>
+                        </div>
+                        <div className="col-4 p-0">
+                            <Button className="btn btn-secondary" onClick={() => showCommentTask(id)}>Message</Button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
