@@ -42,7 +42,10 @@ export default function GuestList({user}){
         <div style={{height:"100vh"}}>
             <div className="container text-center mt-5">
                 <h1>Guest List</h1>
-                <h3><i>Edit and Review your Guest List</i></h3>
+                {user === "Monica" ? 
+                    <h3><i>Edit and Review the Guest List</i></h3> :
+                    <h3><i>Review the Guest List</i></h3>
+                }
             </div>
             {user === "Monica" && <div className="container mt-5">
                 <MyForm updateList={updateList}/>

@@ -5,19 +5,19 @@ function CardGroup() {
     const CardMap = [
         {
             name: "Guest List",
-            description: "Edit and Review your Guest List",
+            description: "Edit and Review the Guest List",
             icon: "FaBook",
             link: "/GuestList",
         },
         {
             name: "Budget",
-            description: "Manage the expenses of your wedding",
+            description: "Manage the expenses of the wedding",
             icon: "FaCalculator",
             link: "/Budget",
         },
         {
             name: "Services",
-            description: "Manage the services you have employed for your wedding",
+            description: "Manage the services employed for the wedding",
             icon: "FaUtensils",
             link: "/Services",
         }
