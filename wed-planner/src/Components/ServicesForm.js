@@ -7,7 +7,7 @@ export default function SForm({updateList}){
         name: yup.string().required("Please add a name!"),
         email: yup.string().email().required("Please add an email!"),
         phone: yup.number().required("Please add a contact number!"),
-        adress: yup.string().required("Please add an adress!"),
+        adress: yup.string().required("Please add an address!"),
     }); 
 
     return(
@@ -110,7 +110,7 @@ export default function SForm({updateList}){
                             <div className='row'>
                                 <div className='col-8'>
                                     <Form.Group className="mb-3" controlId="">
-                                        <Form.Label>Adress</Form.Label>
+                                        <Form.Label>Address</Form.Label>
                                         <Form.Control 
                                             type="text" 
                                             placeholder="" 

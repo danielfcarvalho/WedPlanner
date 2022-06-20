@@ -8,20 +8,20 @@ export default function Budget({user}){
         [
             {
                 bill: "Wedding Dress",
-                cost: "350",
-                deadline: "2022-05-31",
+                cost: "1000",
+                deadline: "2022-06-30",
                 checked: false,
             },
             {
-                bill: "Wedding Dress",
-                cost: "350",
-                deadline: "2022-05-31",
+                bill: "Wedding Cake",
+                cost: "200",
+                deadline: "2022-06-30",
                 checked: false,
             },
             {
-                bill: "Wedding Dress",
-                cost: "350",
-                deadline: "2022-05-31",
+                bill: "Raul's Services",
+                cost: "3500",
+                deadline: "2022-06-30",
                 checked: false,
             },
         ]
@@ -36,7 +36,7 @@ export default function Budget({user}){
         <div style={{height:"100vh"}}>
             <div className="container text-center mt-5">
                 <h1>Budget</h1>
-                <h3><i>Manage the Expenses of the Wedding</i></h3> :
+                <h3><i>Manage the Expenses of the Wedding</i></h3>
             </div>
             <div className="container mt-5">
                 <BForm updateList={updateList}/>

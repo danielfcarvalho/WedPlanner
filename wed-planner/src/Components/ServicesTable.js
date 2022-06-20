@@ -10,7 +10,7 @@ export default function STable({ServicesList}) {
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Adress</th>
+                        <th>Address</th>
                         <th>Link</th>
                     </tr>
                 </thead>

@@ -1,9 +1,11 @@
 import Task from "./Task"
-import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap'
+import React, { useState, useRef } from 'react';
+import { Modal, Button, Form, ListGroup } from 'react-bootstrap'
+import { FaCheckCircle } from 'react-icons/fa'
 import MainButton from "../Button";
 import { Formik } from "formik";
 import * as yup from "yup";
+import "./index.css"
 
 export default function TasksGroup({username}) {
 
@@ -11,8 +13,8 @@ export default function TasksGroup({username}) {
         {
             id: 0,
             title: "Contact Photographer",
-            description: "Just do it",
-            date: "2022-05-31",
+            description: "Call Bob and ask his availability for the day",
+            date: "2022-06-30",
             responsible: "Rachel",
             progress: "not started",
             comment: {
@@ -22,22 +24,21 @@ export default function TasksGroup({username}) {
         },
         {
             id: 1,
-            title: "Contact Photographer",
-            description: "Just do it",
-            date: "2022-05-31",
+            title: "Set table arrangements",
+            description: "Don't seat PhiPhi next to Sharon",
+            date: "2022-06-30",
             responsible: "Monica",
             progress: "not started",
             comment: {
                 user: "",
                 message: "",
             }
-            
         },
         {
             id: 2,
-            title: "Contact Photographer",
-            description: "Just do it",
-            date: "2022-05-31",
+            title: "Contact Florist",
+            description: "Ask for White Roses",
+            date: "2022-06-30",
             responsible: "Rachel",
             progress: "not started",
             comment: {
@@ -48,9 +49,9 @@ export default function TasksGroup({username}) {
         },
         {
             id: 3,
-            title: "Contact Photographer",
-            description: "Just do it",
-            date: "2022-05-31",
+            title: "Set timeline for wedding day",
+            description: "Entertainment - Food - Dance",
+            date: "2022-06-15",
             responsible: "Rachel",
             progress: "in progress",
             comment: {
@@ -61,8 +62,8 @@ export default function TasksGroup({username}) {
         },
         {
             id: 4,
-            title: "Contact Photographer",
-            description: "Just do it",
+            title: "Buy shoes",
+            description: "Go to the Shoes Store and buy shoes",
             date: "2022-05-31",
             responsible: "Monica",
             progress: "completed",
@@ -74,8 +75,8 @@ export default function TasksGroup({username}) {
         },
         {
             id: 5,
-            title: "Contact Photographer",
-            description: "Just do it",
+            title: "Print Invitations",
+            description: "360 Imprimir, Aveiro",
             date: "2022-05-31",
             responsible: "Rachel",
             progress: "completed",
@@ -149,12 +150,20 @@ export default function TasksGroup({username}) {
         console.log(taskInfo)
     }
 
+    // Modal Message Updated
+    const [showMessageUp, setShowMessageUp] = useState(false);
+    const handleCloseMessageUp = () => setShowMessageUp(false);
+    const handleShowMessageUp = () => {
+        setShowMessageUp(true)
+        setTimeout(() => handleCloseMessageUp, 1000)
+    }
+
     const schema = yup.object().shape({
         name: yup.string().required("Please add a task name!"),
     });
 
     const schemaComment = yup.object().shape({
-        message: yup.string().required("Please write a comment!"),
+        message: yup.string(),
     });
     
     const showMyTasks = () => {
@@ -163,11 +172,18 @@ export default function TasksGroup({username}) {
         )
     }
 
+    const TasksRef = useRef(null);
+    
+    const goToTasks = () =>
+      window.scrollTo({
+        top: TasksRef.current.offsetTop,
+        behavior: "smooth",
+        // You can also assign value "auto"
+        // to the behavior parameter.
+      });
+
     return(
-        <div className="mt-5">
-            <div className="container mb-5">
-                <hr className=""/>
-            </div>
+        <div className="mt-4">
             <div className="container mb-5">
                 <div className="row justify-content-center mb-4">
                     <div className="col-4">
@@ -183,32 +199,32 @@ export default function TasksGroup({username}) {
                     </div>
                 </div>
             </div>
-            <div className="container">
+            <div className="container" ref={TasksRef}>
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-4 not-started">
                         <div className="text-center mb-4">
                             <h3>Not Started</h3>
                         </div>
                         {
                             TaskMap
-                            .filter(task => task.progress == "not started")
+                            .filter(task => task.progress === "not started")
                             .map((task, key) => (
                                 <div className="mb-4" key={key}>
-                                    <Task id={task.id} title={task.title} description={task.description} date={task.date} showEditTask={handleShowEdit} showCommentTask={handleShowComment}/>
+                                    <Task id={task.id} title={task.title} description={task.description} date={task.date} showEditTask={handleShowEdit} showCommentTask={handleShowComment} username={username} responsible={task.responsible} comment={task.comment.message}/>
                                 </div>
                             ))
                         }
                     </div>
-                    <div className="col-4 mb-5">
+                    <div className="col-4 mb-5 in-progress">
                         <div className="text-center mb-4"> 
                             <h3>In Progress</h3>
                         </div>
                         {
                             TaskMap
-                            .filter(task => task.progress == "in progress")
+                            .filter(task => task.progress === "in progress")
                             .map((task, key) => (
                                 <div className="mb-4" key={key}>
-                                    <Task id={task.id} title={task.title} description={task.description} date={task.date} showEditTask={handleShowEdit} showCommentTask={handleShowComment}/>
+                                    <Task id={task.id} title={task.title} description={task.description} date={task.date} showEditTask={handleShowEdit} showCommentTask={handleShowComment} username={username} responsible={task.responsible} comment={task.comment.message}/>
                                 </div>
                             ))
                         }
@@ -219,10 +235,10 @@ export default function TasksGroup({username}) {
                         </div>
                         {
                             TaskMap
-                            .filter(task => task.progress == "completed")
+                            .filter(task => task.progress === "completed")
                             .map((task, key) => (
                                 <div className="mb-4" key={key}>
-                                    <Task id={task.id} title={task.title} description={task.description} date={task.date} showEditTask={handleShowEdit} showCommentTask={handleShowComment}/>
+                                    <Task id={task.id} title={task.title} description={task.description} date={task.date} showEditTask={handleShowEdit} showCommentTask={handleShowComment} username={username} responsible={task.responsible} comment={task.comment.message}/>
                                 </div>
                             ))
                         }
@@ -338,7 +354,7 @@ export default function TasksGroup({username}) {
 
             <Modal show={showEdit} onHide={handleCloseEdit}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Task</Modal.Title>
+                    <Modal.Title>{username === "Monica" ? "Edit Task" : "Task Details"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <Formik
@@ -388,6 +404,7 @@ export default function TasksGroup({username}) {
                             <Form.Group className="mb-3">
                                 <Form.Label>Task Name:</Form.Label>
                                 <Form.Control
+                                    disabled={username === "Rachel"}
                                     type="text"
                                     name="name"
                                     placeholder="Task Name"
@@ -402,7 +419,8 @@ export default function TasksGroup({username}) {
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Responsible:</Form.Label>
-                                <Form.Select 
+                                <Form.Select
+                                    disabled={username === "Rachel"}
                                     className="mb-3"
                                     name="resp"
                                     value={values.resp}
@@ -415,6 +433,7 @@ export default function TasksGroup({username}) {
                             <Form.Group>
                                 <Form.Label>Deadline:</Form.Label>
                                 <Form.Control
+                                    disabled={username === "Rachel"}
                                     className="mb-3"
                                     type="date"
                                     name="date"
@@ -424,21 +443,9 @@ export default function TasksGroup({username}) {
                                 />
                             </Form.Group>
                             <Form.Group>
-                                <Form.Label>Progress:</Form.Label>
-                                <Form.Select 
-                                    className="mb-3"
-                                    name="state"
-                                    value={values.state}
-                                    onChange={handleChange}
-                                >
-                                    <option value="not started">not started</option>
-                                    <option value="in progress">in progress</option>
-                                    <option value="completed">completed</option>
-                                </Form.Select>
-                            </Form.Group>
-                            <Form.Group>
                                 <Form.Label>Description:</Form.Label>
                                 <Form.Control
+                                    disabled={username === "Rachel"}
                                     className="mb-3"
                                     name="desc"
                                     as="textarea"
@@ -450,7 +457,7 @@ export default function TasksGroup({username}) {
                             </Form.Group>
                             <div className="row justify-content-center">
                                 <Button variant="btn btn-dark" type="submit" className="col-4">
-                                    Edit Task
+                                    {username === "Monica" ? "Save" : "Change Progress"}
                                 </Button>
                             </div>
                         </Form>
@@ -461,7 +468,7 @@ export default function TasksGroup({username}) {
 
             <Modal show={showComment} onHide={handleCloseComment}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Last Message</Modal.Title>
+                    <Modal.Title>Update Progress / Leave Message</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <Formik
@@ -477,19 +484,41 @@ export default function TasksGroup({username}) {
                                 description: task.description,
                                 date: task.date,
                                 responsible: task.responsible,
-                                progress: task.progress,
+                                progress: values.state,
                                 comment: {
                                     user: {username}.username,
-                                    message: values.message,
+                                    message: task.comment.message,
                                 }
                             }
                          : task)
                         )
                         console.log({taskInfo})
                         handleCloseComment()
+
+                        if (taskInfo.comment.message !== values.message && values.message !== "") {
+                            setTaskMap(
+                                TaskMap.map((task) => task.id === taskInfo.id ? 
+                                {
+                                    id: task.id,
+                                    title: task.title,
+                                    description: task.description,
+                                    date: task.date,
+                                    responsible: task.responsible,
+                                    progress: values.state,
+                                    comment: {
+                                        user: {username}.username,
+                                        message: values.message,
+                                    }
+                                }
+                             : task)
+                            )
+                            handleCloseComment()
+                            handleShowMessageUp()
+                        }
                     }}
                     initialValues={{
-                        message: ""
+                        message: "",
+                        state: taskInfo.progress,
                     }}
                 >
                     {({
@@ -505,30 +534,50 @@ export default function TasksGroup({username}) {
                             noValidate 
                             onSubmit={handleSubmit}
                         >
-                            <div className="card mb-5">
-                                <div className="card-header">
-                                    {taskInfo.comment.user}
-                                </div>
-                                <div className="card-body">
-                                    {taskInfo.comment.message}
-                                </div>
-                            </div>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Leave your message:</Form.Label>
-                                <Form.Control
-                                    as="textarea"
-                                    style={{height: "100px"}}
-                                    name="message"
-                                    placeholder="Leave your message here"
-                                    value={values.message}
-                                    onChange={handleChange}
-                                    isValid={touched.message && !errors.message}
-                                    isInvalid={!!errors.message}
-                                />
-                            </Form.Group>
-                            <div className="row justify-content-center">
+                            <ListGroup>
+                                <ListGroup.Item>
+                                    <Form.Group>
+                                        <Form.Label>Progress:</Form.Label>
+                                        <Form.Select 
+                                            className="mb-3"
+                                            name="state"
+                                            value={values.state}
+                                            onChange={handleChange}
+                                        >
+                                            <option value="not started">not started</option>
+                                            <option value="in progress">in progress</option>
+                                            <option value="completed">completed</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <div>
+                                        <p>Last Message:</p>
+                                    </div>
+                                    <div className="card mb-3">
+                                        <div className="card-header">
+                                            {taskInfo.comment.user}
+                                        </div>
+                                        <div className="card-body">
+                                            {taskInfo.comment.message}
+                                        </div>
+                                    </div>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Leave your message:</Form.Label>
+                                        <Form.Control
+                                            as="textarea"
+                                            style={{height: "100px"}}
+                                            name="message"
+                                            placeholder="Leave your message here"
+                                            value={values.message}
+                                            onChange={handleChange}
+                                        />
+                                    </Form.Group>
+                                </ListGroup.Item>
+                            </ListGroup>
+                            <div className="row justify-content-center mt-3">
                                 <Button variant="btn btn-dark" type="submit" className="col-4">
-                                    Leave Message
+                                    Update
                                 </Button>
                             </div>
                         </Form>
@@ -536,6 +585,19 @@ export default function TasksGroup({username}) {
                     </Formik>
                 </Modal.Body>
             </Modal>
-        </div>
+
+            <Modal show={showMessageUp} onHide={handleCloseMessageUp} centered>
+                <Modal.Header closeButton>
+                    <div className="container text-center">
+                        <Modal.Title className="">Message Updated</Modal.Title>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="container col text-center">
+                        <FaCheckCircle size={50} color={"green"}/ >
+                    </div>
+                </Modal.Body>
+            </Modal>
+        </div>  
     )
 }

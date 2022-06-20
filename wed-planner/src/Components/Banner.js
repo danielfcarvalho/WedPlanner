@@ -3,7 +3,7 @@ import Background from '../Assets/Wedding_Party'
 function Banner({username}) {
     var styleBanner = {
         objectFit: 'cover',
-        height: "400px"
+        height: "275px"
     }
 
     var styleText = {

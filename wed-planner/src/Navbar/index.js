@@ -15,7 +15,7 @@ function MyNavbar({user}) {
 
     return (
         <>
-            {location.pathname === "/Login" ?
+            {location.pathname === "/Login" || location.pathname === "/" ?
                 <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
                     <Link to="/Home" className="navbar-brand">Wed<b>Planner</b></Link>
                 </nav> : 

@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 function Login({user}) {
 
-  const [username, setUsername] = useState("")
+  const [username, setUsername] = useState("Monica")
   const navigate = useNavigate();
 
   const getUser = () =>{
@@ -24,7 +24,6 @@ function Login({user}) {
                 <div className="row mb-4 justify-content-center">
                 <div className="col-6">
                   <select className="form-select" aria-label="Default select example" onChange={(e) => setUsername(e.target.value)}>
-                    <option defaultValue>username</option>
                     <option value="Monica">Monica (Admin Account)</option>
                     <option value="Rachel">Rachel (Helper Account)</option>
                   </select>
@@ -32,7 +31,7 @@ function Login({user}) {
                 </div>
                 <div className="row mb-4 justify-content-center">
                   <div className="col-6">
-                    <input type="password" className="form-control" id="inputPassword"/>
+                    <input type="password" className="form-control" id="inputPassword" placeholder='password' readOnly/>
                   </div>
                 </div>
                 <div className="row justify-content-center">

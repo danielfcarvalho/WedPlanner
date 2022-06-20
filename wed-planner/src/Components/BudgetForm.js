@@ -5,7 +5,7 @@ import * as yup from "yup";
 export default function BForm({updateList}){
     const schema = yup.object().shape({
         bill: yup.string().required("Please add the bill name!"),
-        cost: yup.string().required("Please add a cost!"),
+        cost: yup.number().required("Please add a cost!"),
         deadline: yup.date(),
     }); 
 
@@ -42,7 +42,7 @@ export default function BForm({updateList}){
                             <div className='row'>
                                 <div className='col-4'>
                                     <Form.Group className="mb-3" controlId="">
-                                        <Form.Label>Bill</Form.Label>
+                                        <Form.Label>Name</Form.Label>
                                         <Form.Control 
                                             type="text"
                                             placeholder=""
@@ -76,7 +76,7 @@ export default function BForm({updateList}){
                                 </div>
                                 <div className='col-4'>
                                     <Form.Group className="mb-3" controlId="">
-                                        <Form.Label>Dedline</Form.Label>
+                                        <Form.Label>Deadline</Form.Label>
                                         <Form.Control 
                                             type="date" 
                                             placeholder="" 

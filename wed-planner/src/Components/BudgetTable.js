@@ -6,7 +6,7 @@ export default function BTable({BudgetList}) {
             <Table striped bordered hover >
                 <thead>
                     <tr>
-                        <th>Bill</th>
+                        <th>Name</th>
                         <th>Cost</th>
                         <th>Deadline</th>
                         <th>Paid</th>

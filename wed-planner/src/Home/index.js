@@ -9,6 +9,9 @@ function Home({username}) {
         <div>
             <Banner username = {username}/>
             <CardGroup/>
+            <div className='container mt-4'>
+                <hr />
+            </div>
             <TasksGroup username={username}/>
         </div>
     );

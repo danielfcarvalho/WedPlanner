@@ -9,7 +9,7 @@ export default function GLTable({GuestList}) {
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Adress</th>
+                        <th>Address</th>
                         <th>Postal</th>
                     </tr>
                 </thead>

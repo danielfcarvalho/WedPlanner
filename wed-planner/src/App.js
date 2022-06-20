@@ -16,10 +16,12 @@ function App() {
   }
 
   return (
+
     <div className="App back">
       <Router> 
         <MyNavbar user={user}/>
         <Routes>
+          <Route path="/" element={<Login user={getUser}/>}/>
           <Route path="/Login" element={<Login user={getUser}/>}/>
           <Route path="/Home" element={<Home username={user}/>}/>
           <Route path="/GuestList" element={<GuestList user={user}/>}/>
