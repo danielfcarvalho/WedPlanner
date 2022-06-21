@@ -3,7 +3,7 @@
 ### Note that this is a Prototype, it is not complete!
 
 To run there are some libraries and packets to be installed in your pc.
-For that you need to have **npnm** installed. If you are not sure if you have execute this command:
+For that you need to have **npm** installed. If you are not sure if you have execute this command:
 
 ```
 npm -v
